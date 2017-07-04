@@ -12,10 +12,11 @@ var express = require('express')
 var app = express();
 
 var pg  = require('pg');
-var conString = 'postgres://martin:123@localhost:5432/Quick-Eat';
+var conString   = process.env.DATABASE_URL;
+console.log(conString);
+//var conString = 'postgres://martin:123@localhost:5432/Quick-Eat';
 var client = new pg.Client(conString);
 client.connect();
-
 // all environments
 app.set('port', process.env.PORT || 3000);
 app.set('views', __dirname + '/views');
