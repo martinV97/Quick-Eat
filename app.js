@@ -86,13 +86,14 @@ app.get('/tablaPedidos', function(req, res, next) {
 });
 
 app.get('/crearPedido', function(req, res, next) {
-	var id = req.param('id');
+	//var id = req.param('id');
 	var entregado = req.param('entregado');
 	var nombre = req.param('nombre');
 	var cobrado = req.param('cobrado');
+	var numeroMesa = req.param('numeroMesa');
 	var query = client.	query(
-			'INSERT INTO public."pedido"(id, entregado, nombre_cliente, cobrado) VALUES ('
-			+ id + ',' + entregado + ',' + nombre + ','+ cobrado +')'
+			'INSERT INTO public."pedido"(entregado, nombre_cliente, cobrado, numeroMesa) VALUES ('
+			+ entregado + ',' + nombre + ','+ cobrado + ',' + numeroMesa +')'
 			).then(function () {res.status(200)
 	        .json({
 	          status: 'success',
@@ -120,10 +121,9 @@ app.get('/borraPedido', function(req, res, next) {
 });
 
 app.get('/crearCategoria', function(req, res, next) {
-		var id = req.param('id');
+		//var id = req.param('id');
 		var nombre = req.param('nombre');
-		var query = client.	query('INSERT INTO public."categorias" (id, nombre) VALUES ('
-				+  id 
+		var query = client.	query('INSERT INTO public."categorias" (nombre) VALUES ('
 				+ ',' + String.fromCharCode(39)
 				+ nombre + String.fromCharCode(39)
 				+ ')').then(function () {res.status(200)
