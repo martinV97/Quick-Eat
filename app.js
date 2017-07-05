@@ -13,8 +13,6 @@ var app = express();
 
 var pg  = require('pg');
 var conString   = process.env.DATABASE_URL;
-console.log(conString);
-//var conString = 'postgres://martin:123@localhost:5432/Quick-Eat';
 var client = new pg.Client(conString);
 client.connect();
 // all environments
@@ -99,26 +97,25 @@ app.get('/getIdPedido', function(req, res, next) {
 });	    
 
 app.get('/crearPedido', function(req, res, next) {
-	//var id = req.param('id');
-	var results = {};
-	results.IdPedido = [];
-		var queryId = client.query('SELECT last_value from pedido_id_seq');
-	    query.on('row', function (row){
-	      results.IdPedido.push(row);
-	    });
-	    query.on('end', function (){
-	      return res.json(results);
-	    });
 	var entregado = req.param('entregado');
 	var nombre = req.param('nombre');
 	var cobrado = req.param('cobrado');
 	var numeroMesa = req.param('numeroMesa');
 	var query = client.	query(
 			'INSERT INTO public."pedido"(entregado, nombre_cliente, cobrado, numeroMesa) VALUES ('
-			+ entregado + ',' + nombre + ','+ cobrado + ',' + numeroMesa +')'
-			).catch(function (err) {
-	    	client.done();
-	      return next(err);
+			+ entregado + ',' + nombre + ','+ cobrado + ',' + numeroMesa + ')'
+	).catch(function (err) {
+		client.done();
+		return next(err);
+	});
+	var results = {};
+	results.PedidosI = [];
+		var queryId = client.query('SELECT last_value FROM pedido_id_seq');
+	    queryId.on('row', function (row){
+	      results.PedidosI.push(row);
+	    });
+	    queryId.on('end', function (){
+	      return res.json(results);
 	    });
 });
 //http://localhost:3000/crearPedido/?id=6&entregado=false&nombre=%27Test2%27&cobrado=false
