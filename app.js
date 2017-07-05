@@ -76,14 +76,19 @@ app.get('/crearComidaC', function(req, res, next) {
 	var idComida = req.param('idComida');
 	var query = client.	query('INSERT INTO public.comida_cantidad(cantidad, comida_id) VALUES ('
 			+ cantidad + ',' +
-			+ idComida + ')').then(function () {res.status(200)
-	        .json({
-	          status: 'success',
-	        });
-	    })
+			+ idComida + ')')
 	    .catch(function (err) {
 	    	client.done();
 	      return next(err);
+	    });
+	var results = {};
+	results.ComidasCI = [];
+		var queryId = client.query('SELECT last_value FROM comida_cantidad_id_seq');
+	    queryId.on('row', function (row){
+	      results.ComidasCI.push(row);
+	    });
+	    queryId.on('end', function (){
+	      return res.json(results);
 	    });
 });
 //http://localhost:3000/crearComidaC/?cantidad=1&idComida=1
