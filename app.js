@@ -71,6 +71,23 @@ app.get('/tablaComidasCantidad', function(req, res, next) {
 	    });
 });
 
+app.get('/crearComidaC', function(req, res, next) {
+	var cantidad = req.param('cantidad');
+	var idComida = req.param('idComida');
+	var query = client.	query('INSERT INTO public.comida_cantidad(cantidad, comida_id) VALUES ('
+			+ cantidad + ',' +
+			+ idComida + ')').then(function () {res.status(200)
+	        .json({
+	          status: 'success',
+	        });
+	    })
+	    .catch(function (err) {
+	    	client.done();
+	      return next(err);
+	    });
+});
+//http://localhost:3000/crearComidaC/?cantidad=1&idComida=1
+
 app.get('/tablaPedidos', function(req, res, next) {
 	var results = {};
 	results.Pedidos = [];
@@ -135,7 +152,6 @@ app.get('/borraPedido', function(req, res, next) {
 });
 
 app.get('/crearCategoria', function(req, res, next) {
-		//var id = req.param('id');
 		var nombre = req.param('nombre');
 		var query = client.	query('INSERT INTO public."categorias" (nombre) VALUES ('
 				+ ',' + String.fromCharCode(39)
@@ -175,3 +191,4 @@ app.get('/getCobros' , function(re, res, next) {
 	      return res.json(results);
 	    });
 });
+
