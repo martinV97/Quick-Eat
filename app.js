@@ -129,10 +129,10 @@ app.get('/getIdPedido', function(req, res, next) {
 	var results = {};
 	results.IdPedido = [];
 		var queryId = client.query('SELECT last_value from pedido_id_seq');
-	    query.on('row', function (row){
+	    queryId.on('row', function (row){
 	      results.IdPedido.push(row);
 	    });
-	    query.on('end', function (){
+	    queryId.on('end', function (){
 	      return res.json(results);
 	    });
 });	    
