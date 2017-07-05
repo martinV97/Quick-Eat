@@ -85,6 +85,19 @@ app.get('/tablaPedidos', function(req, res, next) {
 	    });
 });
 
+app.get('/getIdPedido', function(req, res, next) {
+	//var id = req.param('id');
+	var results = {};
+	results.IdPedido = [];
+		var queryId = client.query('SELECT last_value from pedido_id_seq');
+	    query.on('row', function (row){
+	      results.IdPedido.push(row);
+	    });
+	    query.on('end', function (){
+	      return res.json(results);
+	    });
+});	    
+
 app.get('/crearPedido', function(req, res, next) {
 	//var id = req.param('id');
 	var results = {};
