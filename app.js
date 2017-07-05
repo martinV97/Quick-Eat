@@ -46,6 +46,7 @@ app.get('/tablaComidas', function(req, res, next) {
 	      return res.json(results);
 	    });
 });
+//_____________________________________________________________________________________________________
 
 app.get('/tablaCategorias', function(req, res, next) {
 	var results = {};
@@ -59,6 +60,23 @@ app.get('/tablaCategorias', function(req, res, next) {
 	    });
 });
 
+app.get('/crearCategoria', function(req, res, next) {
+	var nombre = req.param('nombre');
+	var query = client.	query(
+			'INSERT INTO public."categorias" (nombre) VALUES ('
+			+ nombre + ')').then(function () {res.status(200)
+	        .json({
+	          status: 'success',
+	        });
+	    })
+	    .catch(function (err) {
+	    	client.done();
+	      return next(err);
+	    });
+});
+
+//_____________________________________________________________________________________________________
+
 app.get('/tablaComidasCantidad', function(req, res, next) {
 	var results = {};
 	results.ComidasCantidad = [];
@@ -71,7 +89,7 @@ app.get('/tablaComidasCantidad', function(req, res, next) {
 	    });
 });
 
-app.get('/crearComidaC', function(req, res, next) {
+app.get('/crearComidaCantidad', function(req, res, next) {
 	var cantidad = req.param('cantidad');
 	var idComida = req.param('idComida');
 	var query = client.	query('INSERT INTO public.comida_cantidad(cantidad, comida_id) VALUES ('
@@ -91,7 +109,8 @@ app.get('/crearComidaC', function(req, res, next) {
 	      return res.json(results);
 	    });
 });
-//http://localhost:3000/crearComidaC/?cantidad=1&idComida=1
+//http://localhost:3000/crearComidaCantidad/?cantidad=1&idComida=1
+//_____________________________________________________________________________________________________
 
 app.get('/tablaPedidos', function(req, res, next) {
 	var results = {};
@@ -156,21 +175,26 @@ app.get('/borraPedido', function(req, res, next) {
 			   
 });
 
-app.get('/crearCategoria', function(req, res, next) {
-		var nombre = req.param('nombre');
-		var query = client.	query('INSERT INTO public."categorias" (nombre) VALUES ('
-				+ ',' + String.fromCharCode(39)
-				+ nombre + String.fromCharCode(39)
-				+ ')').then(function () {res.status(200)
-		        .json({
-		          status: 'success',
-		        });
-		    })
-		    .catch(function (err) {
-		    	client.done();
-		      return next(err);
-		    });
+//_____________________________________________________________________________________________________
+
+app.get('/crearPedidoCC', function(req, res, next) {
+	var pedidoId = req.param('pedidoId');
+	var comidaCId = req.param('comidaCId');
+	var query = client.	query(
+			'INSERT INTO public.pedido_comida_cantidad(pedido_id, comidacantidad_id) VALUES ('
+			+ pedidoId + ',' 
+			+ comidaCId + ')').then(function () {res.status(200)
+	        .json({
+	          status: 'success',
+	        });
+	    })
+	    .catch(function (err) {
+	    	client.done();
+	      return next(err);
+	    });
 });
+
+//_____________________________________________________________________________________________________
 
 app.get('/getPedidosCocina' , function(re, res, next) {
 	var results = {};
