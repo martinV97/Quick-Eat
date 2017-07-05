@@ -87,6 +87,15 @@ app.get('/tablaPedidos', function(req, res, next) {
 
 app.get('/crearPedido', function(req, res, next) {
 	//var id = req.param('id');
+	var results = {};
+	results.IdPedido = [];
+		var queryId = client.query('SELECT last_value from pedido_id_seq');
+	    query.on('row', function (row){
+	      results.IdPedido.push(row);
+	    });
+	    query.on('end', function (){
+	      return res.json(results);
+	    });
 	var entregado = req.param('entregado');
 	var nombre = req.param('nombre');
 	var cobrado = req.param('cobrado');
@@ -94,12 +103,7 @@ app.get('/crearPedido', function(req, res, next) {
 	var query = client.	query(
 			'INSERT INTO public."pedido"(entregado, nombre_cliente, cobrado, numeroMesa) VALUES ('
 			+ entregado + ',' + nombre + ','+ cobrado + ',' + numeroMesa +')'
-			).then(function () {res.status(200)
-	        .json({
-	          status: 'success',
-	        });
-	    })
-	    .catch(function (err) {
+			).catch(function (err) {
 	    	client.done();
 	      return next(err);
 	    });
