@@ -146,7 +146,6 @@ app.get('/crearPedido', function(req, res, next) {
 			'INSERT INTO public."pedido"(entregado, nombre_cliente, cobrado, numero_mesa) VALUES ('
 			+ entregado + ',' + nombre + ','+ cobrado + ',' + numeroMesa + ')'
 	).catch(function (err) {
-		client.done();
 		return next(err);
 	});
 	var results = {};
