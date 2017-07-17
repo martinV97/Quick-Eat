@@ -174,6 +174,21 @@ app.get('/borraPedido', function(req, res, next) {
 			   
 });
 
+app.get('/actualizaPedidoEntregado', function(req, res, next) {
+	var id = req.param('id');
+	var query = client.	query( 
+			'UPDATE public."pedido" SET entregado = true WHERE id =' + id)
+			.then(function () {res.status(200)
+        .json({
+	          status: 'success',
+	        });
+	    })
+	    .catch(function (err) {
+	    	client.done();
+	      return next(err);
+	    });
+	   
+});
 //_____________________________________________________________________________________________________
 
 app.get('/crearPedidoCC', function(req, res, next) {
