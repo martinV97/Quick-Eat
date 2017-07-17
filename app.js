@@ -176,7 +176,7 @@ app.get('/borraPedido', function(req, res, next) {
 
 app.get('/actualizaPedidoEntregado', function(req, res, next) {
 	var id = req.param('id');
-	var query = client.	query( 
+	var query = client.query( 
 			'UPDATE public."pedido" SET entregado = true WHERE id =' + id)
 			.then(function () {res.status(200)
         .json({
@@ -187,14 +187,13 @@ app.get('/actualizaPedidoEntregado', function(req, res, next) {
 	    	client.done();
 	      return next(err);
 	    });
-	   
 });
 //_____________________________________________________________________________________________________
 
 app.get('/crearPedidoCC', function(req, res, next) {
 	var pedidoId = req.param('pedidoId');
 	var comidaCId = req.param('comidaCId');
-	var query = client.	query(
+	var query = client.query(
 			'INSERT INTO public.pedido_comida_cantidad(pedido_id, comidacantidad_id) VALUES ('
 			+ pedidoId + ',' 
 			+ comidaCId + ')').then(function () {res.status(200)
