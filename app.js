@@ -188,6 +188,36 @@ app.get('/actualizaPedidoEntregado', function(req, res, next) {
 	      return next(err);
 	    });
 });
+
+app.get('/actualizaPedidoCobrado', function(req, res, next) {
+	var id = req.param('id');
+	var query = client.query( 
+			'UPDATE public."pedido" SET cobrado = true WHERE id =' + id)
+			.then(function () {res.status(200)
+        .json({
+	          status: 'success',
+	        });
+	    })
+	    .catch(function (err) {
+	    	client.done();
+	      return next(err);
+	    });
+});
+
+app.get('/actualizaPedidoImpreso', function(req, res, next) {
+	var id = req.param('id');
+	var query = client.query( 
+			'UPDATE public."pedido" SET impreso = true WHERE id =' + id)
+			.then(function () {res.status(200)
+        .json({
+	          status: 'success',
+	        });
+	    })
+	    .catch(function (err) {
+	    	client.done();
+	      return next(err);
+	    });
+});
 //_____________________________________________________________________________________________________
 
 app.get('/crearPedidoCC', function(req, res, next) {
